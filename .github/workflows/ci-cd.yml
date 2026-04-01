@@ -15,7 +15,10 @@ jobs:
   test:
     runs-on: ubuntu-latest
     name: 🧪 Build & Test
-    
+    permissions:
+      contents: read
+      checks: write
+
     services:
       oracle:
         image: gvenzl/oracle-xe:21-slim-faststart
@@ -65,13 +68,14 @@ jobs:
     - name: 📦 Package application
       run: ./mvnw package -DskipTests -B
 
-    - name: 📊 Generate test report
+    - name: 📊 Publish test results
       uses: dorny/test-reporter@v1
       if: success() || failure()
       with:
         name: Maven Tests
         path: target/surefire-reports/*.xml
         reporter: java-junit
+        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 📤 Upload build artifacts
       uses: actions/upload-artifact@v4
