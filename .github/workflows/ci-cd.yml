@@ -43,7 +43,7 @@ jobs:
         cache: maven
 
     - name: 🔧 Cache Maven dependencies
-      uses: actions/cache@v3
+      uses: actions/cache@v4
       with:
         path: ~/.m2
         key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
@@ -74,7 +74,7 @@ jobs:
         reporter: java-junit
 
     - name: 📤 Upload build artifacts
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: jar-artifact
         path: target/*.jar
@@ -98,10 +98,10 @@ jobs:
         distribution: 'temurin'
 
     - name: 🔍 Run SpotBugs
-      run: ./mvnw spotbugs:check -B || true
+      run: ./mvnw spotbugs:check -B
 
     - name: 🛡️ Run OWASP Dependency Check
-      run: ./mvnw org.owasp:dependency-check-maven:check -B || true
+      run: ./mvnw org.owasp:dependency-check-maven:check -DfailBuildOnCVSS=7 -B
 
   # Job 3: Build e Push da Imagem Docker
   build-and-push:
