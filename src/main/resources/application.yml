@@ -1,0 +1,41 @@
+spring:
+  application:
+    name: mobilidade-sustentavel
+  datasource:
+    url: jdbc:oracle:thin:@//oracle:1521/xe
+    username: ecotrack
+    password: "${ORACLE_PASSWORD}"
+  jpa:
+    hibernate:
+      ddl-auto: none
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+  secret: 
+    ai:
+      key: "${SPRING_SECRET_AI_KEY}"
+
+# Custom application properties
+app:
+  co2-emission-factors: # in kg CO2 per km
+    CARRO: 0.120       # Example: Average gasoline car
+    MOTO: 0.070        # Example: Average motorcycle
+    ONIBUS: 0.050      # Example: Average bus (vehicle, not per passenger-km initially)
+    METRO: 0.015       # Example: Metro/Train (electric, varies by grid)
+    TREM: 0.015        # Alias for METRO or similar rail
+    BICICLETA: 0.0
+    CAMINHADA: 0.0
+    PATINETE: 0.0      # Assuming electric scooter, low direct emission (grid dependent for charging)
+    OUTRO: 0.100       # Default for other unspecified motorized transport
+  jwt:
+    secret: "${JWT_SECRET}"
+    expiration-ms: "${JWT_EXPIRATION_MS}" 
+
+logging:
+  level:
+    org.springframework.security: DEBUG
+    org.springframework.web: DEBUG
+    # You can also set the root logger to DEBUG for even more detail, but it can be very noisy:
+    # root: DEBUG 
+    # Or specifically for SpringDoc if needed later:
+    # org.springdoc: DEBUG
