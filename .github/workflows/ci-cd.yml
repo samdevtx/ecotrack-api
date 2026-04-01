@@ -99,8 +99,25 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Cache NVD database
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository/org/owasp/dependency-check-data
+        key: nvd-${{ github.run_id }}
+        restore-keys: nvd-
+
     - name: 🔍 Run SpotBugs
       run: ./mvnw spotbugs:check -B
+
+    - name: 🛡️ Run OWASP Dependency Check
+      env:
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        ./mvnw org.owasp:dependency-check-maven:check \
+          -DfailBuildOnCVSS=7 \
+          -DnvdApiKey=$NVD_API_KEY \
+          -DsuppressionFile=dependency-check-suppressions.xml \
+          -B
 
 
   # Job 3: Build e Push da Imagem Docker
