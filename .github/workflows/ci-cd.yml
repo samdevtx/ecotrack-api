@@ -17,7 +17,6 @@ jobs:
     name: 🧪 Build & Test
     permissions:
       contents: read
-      checks: write
 
     services:
       oracle:
@@ -68,14 +67,12 @@ jobs:
     - name: 📦 Package application
       run: ./mvnw package -DskipTests -B
 
-    - name: 📊 Publish test results
-      uses: dorny/test-reporter@v1
+    - name: 📤 Upload test results
+      uses: actions/upload-artifact@v4
       if: success() || failure()
       with:
-        name: Maven Tests
+        name: surefire-reports
         path: target/surefire-reports/*.xml
-        reporter: java-junit
-        token: ${{ secrets.GITHUB_TOKEN }}
 
     - name: 📤 Upload build artifacts
       uses: actions/upload-artifact@v4
