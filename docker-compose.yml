@@ -1,37 +1,26 @@
 version: '3.8'
 
 services:
-  # Banco de Dados Oracle
-  oracle-db:
-    image: gvenzl/oracle-xe:21-slim-faststart
-    container_name: ecotrack-oracle-db
+  # Banco de Dados PostgreSQL
+  postgres:
+    image: postgres:16-alpine
+    container_name: ecotrack-postgres
     ports:
-      - "1521:1521"
+      - "5432:5432"
     environment:
-      - ORACLE_PASSWORD=${ORACLE_PASSWORD}
-      - APP_USER=ecotrack
-      - APP_USER_PASSWORD=${ORACLE_PASSWORD}
-      - ORACLE_CHARACTERSET=AL32UTF8
+      - POSTGRES_DB=ecotrack
+      - POSTGRES_USER=ecotrack
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
     volumes:
-      - oracle_data:/opt/oracle/oradata
-      - ./scripts/init-db.sh:/container-entrypoint-initdb.d/init-db.sh:ro
+      - postgres_data:/var/lib/postgresql/data
     networks:
       - ecotrack-network
     healthcheck:
-      test: ["CMD", "healthcheck.sh"]
-      interval: 30s
-      timeout: 10s
+      test: ["CMD-SHELL", "pg_isready -U ecotrack -d ecotrack"]
+      interval: 10s
+      timeout: 5s
       retries: 5
-      start_period: 60s
     restart: unless-stopped
-    deploy:
-      resources:
-        limits:
-          memory: 2G
-          cpus: '1.0'
-        reservations:
-          memory: 1G
-          cpus: '0.5'
 
   # Aplicação EcoTrack
   app:
@@ -46,7 +35,7 @@ services:
       - "8080:8080"
       - "8081:8081" # Management port
     depends_on:
-      oracle-db:
+      postgres:
         condition: service_healthy
     environment:
       # Spring Boot Configuration
@@ -54,9 +43,9 @@ services:
       - SPRING_PROFILES_ACTIVE=docker,${ENVIRONMENT:-development}
       
       # Database Configuration
-      - SPRING_DATASOURCE_URL=jdbc:oracle:thin:@//oracle-db:1521/XEPDB1
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/ecotrack
       - SPRING_DATASOURCE_USERNAME=ecotrack
-      - SPRING_DATASOURCE_PASSWORD=${ORACLE_PASSWORD}
+      - SPRING_DATASOURCE_PASSWORD=${DB_PASSWORD}
       - SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE=20
       - SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE=5
       - SPRING_DATASOURCE_HIKARI_CONNECTION_TIMEOUT=30000
@@ -198,7 +187,7 @@ networks:
         - subnet: 172.20.0.0/16
 
 volumes:
-  oracle_data:
+  postgres_data:
     driver: local
   redis_data:
     driver: local
