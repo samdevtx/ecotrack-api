@@ -9,13 +9,16 @@ on:
 env:
   REGISTRY: ghcr.io
   IMAGE_NAME: ${{ github.repository }}
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   # Job 1: Build e Testes
   test:
     runs-on: ubuntu-latest
     name: 🧪 Build & Test
-    
+    permissions:
+      contents: read
+
     services:
       oracle:
         image: gvenzl/oracle-xe:21-slim-faststart
@@ -65,13 +68,12 @@ jobs:
     - name: 📦 Package application
       run: ./mvnw package -DskipTests -B
 
-    - name: 📊 Generate test report
-      uses: dorny/test-reporter@v1
+    - name: 📤 Upload test results
+      uses: actions/upload-artifact@v4
       if: success() || failure()
       with:
-        name: Maven Tests
+        name: surefire-reports
         path: target/surefire-reports/*.xml
-        reporter: java-junit
 
     - name: 📤 Upload build artifacts
       uses: actions/upload-artifact@v4
@@ -97,11 +99,25 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
+    - name: Cache NVD database
+      uses: actions/cache@v4
+      with:
+        path: ~/.m2/repository/org/owasp/dependency-check-data
+        key: nvd-${{ github.run_id }}
+        restore-keys: nvd-
+
     - name: 🔍 Run SpotBugs
       run: ./mvnw spotbugs:check -B
 
     - name: 🛡️ Run OWASP Dependency Check
-      run: ./mvnw org.owasp:dependency-check-maven:check -DfailBuildOnCVSS=7 -B
+      env:
+        NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
+      run: |
+        ./mvnw org.owasp:dependency-check-maven:check \
+          -DfailBuildOnCVSS=7 \
+          -DnvdApiKey=$NVD_API_KEY \
+          -DsuppressionFile=dependency-check-suppressions.xml \
+          -B
 
   # Job 3: Build e Push da Imagem Docker
   build-and-push:
@@ -143,7 +159,7 @@ jobs:
       uses: docker/build-push-action@v5
       with:
         context: .
-        platforms: linux/amd64,linux/arm64
+        platforms: linux/amd64
         push: true
         tags: ${{ steps.meta.outputs.tags }}
         labels: ${{ steps.meta.outputs.labels }}
