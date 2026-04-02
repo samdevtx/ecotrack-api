@@ -138,6 +138,7 @@
 				<configuration>
 					<failBuildOnCVSS>7</failBuildOnCVSS>
 					<suppressionFile>dependency-check-suppressions.xml</suppressionFile>
+					<ossindexAnalyzerEnabled>false</ossindexAnalyzerEnabled>
 				</configuration>
 			</plugin>
 		</plugins>

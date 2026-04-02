@@ -37,7 +37,6 @@ jobs:
           -DfailBuildOnCVSS=7 \
           -DnvdApiKey=$NVD_API_KEY \
           -DsuppressionFile=dependency-check-suppressions.xml \
-          -DossindexAnalyzerEnabled=false \
           -B
 
     - name: Upload report
