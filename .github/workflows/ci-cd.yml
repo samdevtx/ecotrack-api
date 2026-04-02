@@ -20,16 +20,16 @@ jobs:
       contents: read
 
     services:
-      oracle:
-        image: gvenzl/oracle-xe:21-slim-faststart
+      postgres:
+        image: postgres:16-alpine
         env:
-          ORACLE_PASSWORD: ${{ secrets.ORACLE_PASSWORD }}
-          APP_USER: ecotrack
-          APP_USER_PASSWORD: ${{ secrets.ORACLE_PASSWORD }}
+          POSTGRES_DB: ecotrack
+          POSTGRES_USER: ecotrack
+          POSTGRES_PASSWORD: test_password
         ports:
-          - 1521:1521
+          - 5432:5432
         options: >-
-          --health-cmd healthcheck.sh
+          --health-cmd "pg_isready -U ecotrack -d ecotrack"
           --health-interval 10s
           --health-timeout 5s
           --health-retries 5
@@ -57,9 +57,10 @@ jobs:
 
     - name: 🧪 Run tests
       env:
-        SPRING_DATASOURCE_URL: jdbc:oracle:thin:@//localhost:1521/XEPDB1
+        SPRING_DATASOURCE_URL: jdbc:postgresql://localhost:5432/ecotrack
         SPRING_DATASOURCE_USERNAME: ecotrack
-        SPRING_DATASOURCE_PASSWORD: ${{ secrets.ORACLE_PASSWORD }}
+        SPRING_DATASOURCE_PASSWORD: test_password
+        DB_PASSWORD: test_password
         JWT_SECRET: ${{ secrets.JWT_SECRET }}
         JWT_EXPIRATION_MS: 3600000
         SPRING_SECRET_AI_KEY: ${{ secrets.SPRING_SECRET_AI_KEY }}

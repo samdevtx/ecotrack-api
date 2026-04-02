@@ -1,9 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
-    <!-- Add suppressions here for false positives, e.g.:
-    <suppress>
-        <notes>False positive: CVE-XXXX-YYYY is not applicable because ...</notes>
-        <cve>CVE-XXXX-YYYY</cve>
-    </suppress>
+
+    <!--
+        Netty CVEs with no fix available in the 4.1.x line as of 2026-04.
+        Pinned to 4.1.132.Final (latest stable). Re-evaluate when a newer
+        Netty version is released that addresses these.
     -->
+    <suppress>
+        <notes>No patched Netty 4.1.x release available as of 2026-04. Pinned to 4.1.132.Final.</notes>
+        <cve>CVE-2026-33871</cve>
+    </suppress>
+    <suppress>
+        <notes>No patched Netty 4.1.x release available as of 2026-04. Pinned to 4.1.132.Final.</notes>
+        <cve>CVE-2026-33870</cve>
+    </suppress>
+    <suppress>
+        <notes>No patched Netty 4.1.x release available as of 2026-04. Pinned to 4.1.132.Final.</notes>
+        <cve>CVE-2025-55163</cve>
+    </suppress>
+
 </suppressions>

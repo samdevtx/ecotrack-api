@@ -2,9 +2,9 @@ spring:
   application:
     name: mobilidade-sustentavel
   datasource:
-    url: jdbc:oracle:thin:@//oracle:1521/xe
+    url: jdbc:postgresql://postgres:5432/ecotrack
     username: ecotrack
-    password: "${ORACLE_PASSWORD}"
+    password: "${DB_PASSWORD}"
   jpa:
     hibernate:
       ddl-auto: none
