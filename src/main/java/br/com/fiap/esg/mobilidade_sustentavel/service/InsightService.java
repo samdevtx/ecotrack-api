@@ -1,21 +1,21 @@
 package br.com.fiap.esg.mobilidade_sustentavel.service;
 
+import java.time.Duration;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
-import java.util.ArrayList;
-import java.util.Comparator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import br.com.fiap.esg.mobilidade_sustentavel.dto.ViagemResponseDto;
 import reactor.core.publisher.Mono;
+import reactor.util.retry.Retry;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -114,9 +114,10 @@ public class InsightService {
 
                 return Mono.just(response.labels().get(bestLabelIndex));
             })
+            .retryWhen(Retry.backoff(2, Duration.ofMillis(500)).jitter(0.5))
             .switchIfEmpty(Mono.defer(() -> {
-                 log.warn("Response Mono from AI was empty after bodyToMono (should not happen if API returned 200 and valid JSON).");
-                 return Mono.just("Não foi possível gerar uma sugestão no momento (resposta vazia do modelo).");
+                log.warn("Response Mono from AI was empty after bodyToMono.");
+                return Mono.just("Não foi possível gerar uma sugestão no momento (resposta vazia do modelo).");
             }))
             .onErrorResume(e -> {
                 log.error("Error in AI insight generation pipeline: {}", e.getMessage(), e);
