@@ -31,11 +31,10 @@ app:
     secret: "${JWT_SECRET}"
     expiration-ms: "${JWT_EXPIRATION_MS}" 
 
+server:
+  shutdown: graceful
+
 logging:
   level:
-    org.springframework.security: DEBUG
-    org.springframework.web: DEBUG
-    # You can also set the root logger to DEBUG for even more detail, but it can be very noisy:
-    # root: DEBUG 
-    # Or specifically for SpringDoc if needed later:
-    # org.springdoc: DEBUG
+    org.springframework.security: WARN
+    org.springframework.web: WARN
