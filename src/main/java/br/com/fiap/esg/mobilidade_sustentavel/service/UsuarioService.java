@@ -94,7 +94,7 @@ public class UsuarioService {
 
     @Transactional(readOnly = true)
     public Page<UsuarioResponseDto> listarUsuarios(Pageable pageable, String nomeFilter, String emailFilter) {
-        Specification<Usuario> spec = Specification.where(null);
+        Specification<Usuario> spec = null;
 
         if (nomeFilter != null && !nomeFilter.trim().isEmpty()) {
             spec = spec.and(UsuarioSpecification.nomeContains(nomeFilter));
