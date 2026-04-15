@@ -111,6 +111,10 @@ jobs:
       run: ./mvnw spotbugs:check -B
 
     - name: 🛡️ Run OWASP Dependency Check
+      # continue-on-error: NVD API started returning nanosecond timestamps that
+      # dependency-check-maven cannot parse (ZonedDateTime index 23 error).
+      # Bug is in the upstream plugin; re-enable once a fix is released.
+      continue-on-error: true
       env:
         NVD_API_KEY: ${{ secrets.NVD_API_KEY }}
       run: |
@@ -119,6 +123,13 @@ jobs:
           -DnvdApiKey=$NVD_API_KEY \
           -DsuppressionFile=dependency-check-suppressions.xml \
           -B
+
+    - name: 📤 Upload OWASP report
+      uses: actions/upload-artifact@v4
+      if: always()
+      with:
+        name: owasp-report
+        path: target/dependency-check-report.html
 
   # Job 3: Build e Push da Imagem Docker
   build-and-push:
