@@ -178,11 +178,45 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-  # Job 4: Deploy para Staging
+  # Job 4: Trivy Image Scan
+  trivy-scan:
+    runs-on: ubuntu-latest
+    name: 🔒 Trivy Image Scan
+    needs: build-and-push
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+
+    permissions:
+      contents: read
+      security-events: write
+
+    steps:
+    - name: 🔐 Log in to Container Registry
+      uses: docker/login-action@v3
+      with:
+        registry: ${{ env.REGISTRY }}
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: 🔒 Run Trivy vulnerability scanner
+      uses: aquasecurity/trivy-action@0.30.0
+      with:
+        image-ref: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}:latest
+        format: sarif
+        output: trivy-results.sarif
+        severity: CRITICAL,HIGH
+        exit-code: '1'
+
+    - name: 📤 Upload Trivy results to GitHub Security tab
+      uses: github/codeql-action/upload-sarif@v3
+      if: always()
+      with:
+        sarif_file: trivy-results.sarif
+
+  # Job 5: Deploy para Staging
   deploy-staging:
     runs-on: ubuntu-latest
     name: 🚀 Deploy to Staging
-    needs: build-and-push
+    needs: [build-and-push, trivy-scan]
     environment: staging
     
     steps:
@@ -213,7 +247,7 @@ jobs:
         # Aqui executaríamos testes de integração no ambiente de staging
         echo "✅ Staging tests passed"
 
-  # Job 5: Deploy para Produção
+  # Job 6: Deploy para Produção
   deploy-production:
     runs-on: ubuntu-latest
     name: 🌟 Deploy to Production
