@@ -1,0 +1,56 @@
+groups:
+  - name: ecotrack
+    rules:
+      - alert: HighErrorRate
+        expr: |
+          rate(http_server_requests_seconds_count{status=~"5.."}[5m])
+          /
+          rate(http_server_requests_seconds_count[5m]) > 0.01
+        for: 5m
+        labels:
+          severity: critical
+        annotations:
+          summary: "Error rate above 1% for 5 minutes"
+          description: "{{ $value | humanizePercentage }} of requests are failing."
+
+      - alert: HighP99Latency
+        expr: |
+          histogram_quantile(0.99,
+            rate(http_server_requests_seconds_bucket[5m])
+          ) > 2
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "P99 latency above 2s"
+          description: "99th percentile latency is {{ $value | humanizeDuration }}."
+
+      - alert: ServiceDown
+        expr: up{job="ecotrack-app"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "EcoTrack API is down"
+          description: "The application has been unreachable for more than 1 minute."
+
+      - alert: CircuitBreakerOpen
+        expr: resilience4j_circuitbreaker_state{state="open"} == 1
+        for: 0m
+        labels:
+          severity: warning
+        annotations:
+          summary: "Circuit breaker open: {{ $labels.name }}"
+          description: "The {{ $labels.name }} circuit breaker is open."
+
+      - alert: HighJvmMemory
+        expr: |
+          jvm_memory_used_bytes{area="heap"}
+          /
+          jvm_memory_max_bytes{area="heap"} > 0.85
+        for: 5m
+        labels:
+          severity: warning
+        annotations:
+          summary: "JVM heap above 85%"
+          description: "Heap usage is {{ $value | humanizePercentage }}."
