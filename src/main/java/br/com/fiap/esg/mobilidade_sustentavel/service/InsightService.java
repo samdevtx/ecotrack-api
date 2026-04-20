@@ -12,6 +12,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 
 import br.com.fiap.esg.mobilidade_sustentavel.dto.ViagemResponseDto;
 import reactor.core.publisher.Mono;
@@ -56,9 +57,15 @@ public class InsightService {
         this.viagemService = viagemService;
     }
 
+    @CircuitBreaker(name = "aiInsightService", fallbackMethod = "gerarInsightsFallback")
     public Mono<String> gerarInsightsSustentabilidade(Long usuarioId) {
         List<ViagemResponseDto> viagens = viagemService.listarViagensPorUsuario(usuarioId);
         return gerarSugestaoComBaseNasViagens(viagens);
+    }
+
+    private Mono<String> gerarInsightsFallback(Long usuarioId, Throwable t) {
+        log.warn("Circuit breaker open for AI insights userId={}: {}", usuarioId, t.getMessage());
+        return Mono.just("Serviço de sugestões temporariamente indisponível. Tente novamente em breve.");
     }
 
     private Mono<String> gerarSugestaoComBaseNasViagens(List<ViagemResponseDto> viagens) {

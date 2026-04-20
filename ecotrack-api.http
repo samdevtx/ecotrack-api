@@ -1,0 +1,148 @@
+### EcoTrack API — HTTP requests for VS Code REST Client / IntelliJ HTTP Client
+### Set @baseUrl and @token before running
+
+@baseUrl = http://localhost:8080
+@token = Bearer <paste-jwt-here>
+
+### ── Auth ──────────────────────────────────────────────────────────────────
+
+### Login
+POST {{baseUrl}}/api/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@example.com",
+  "senha": "yourpassword"
+}
+
+### ── Usuários ────────────────────────────────────────────────────────────
+
+### Register user
+POST {{baseUrl}}/api/usuarios
+Content-Type: application/json
+
+{
+  "nome": "Samuel Teixeira",
+  "email": "samuel@example.com",
+  "senha": "strongpassword123"
+}
+
+### Get current user profile
+GET {{baseUrl}}/api/usuarios/me
+Authorization: {{token}}
+
+### List users (admin)
+GET {{baseUrl}}/api/usuarios?page=0&size=10
+Authorization: {{token}}
+
+### Get user by id
+GET {{baseUrl}}/api/usuarios/1
+Authorization: {{token}}
+
+### Update user
+PUT {{baseUrl}}/api/usuarios/1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "nome": "Samuel T.",
+  "email": "samuel@example.com"
+}
+
+### Delete user
+DELETE {{baseUrl}}/api/usuarios/1
+Authorization: {{token}}
+
+### ── Viagens ─────────────────────────────────────────────────────────────
+
+### Register trip
+POST {{baseUrl}}/api/viagens
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "transporte": "METRO",
+  "distanciaKm": 12.5,
+  "data": "2026-04-20"
+}
+
+### List my trips
+GET {{baseUrl}}/api/viagens?page=0&size=10
+Authorization: {{token}}
+
+### Get trip by id
+GET {{baseUrl}}/api/viagens/1
+Authorization: {{token}}
+
+### Update trip
+PUT {{baseUrl}}/api/viagens/1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "transporte": "BICICLETA",
+  "distanciaKm": 5.0,
+  "data": "2026-04-20"
+}
+
+### Delete trip
+DELETE {{baseUrl}}/api/viagens/1
+Authorization: {{token}}
+
+### ── Compensações ────────────────────────────────────────────────────────
+
+### Register carbon offset
+POST {{baseUrl}}/api/compensacoes
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "tipo": "ARVORE_PLANTADA",
+  "quantidade": 2,
+  "data": "2026-04-20"
+}
+
+### List my offsets
+GET {{baseUrl}}/api/compensacoes?page=0&size=10
+Authorization: {{token}}
+
+### Get offset by id
+GET {{baseUrl}}/api/compensacoes/1
+Authorization: {{token}}
+
+### Update offset
+PUT {{baseUrl}}/api/compensacoes/1
+Authorization: {{token}}
+Content-Type: application/json
+
+{
+  "tipo": "ARVORE_PLANTADA",
+  "quantidade": 3,
+  "data": "2026-04-20"
+}
+
+### Delete offset
+DELETE {{baseUrl}}/api/compensacoes/1
+Authorization: {{token}}
+
+### ── Insights (AI) ───────────────────────────────────────────────────────
+
+### Get AI sustainability insight for user
+GET {{baseUrl}}/api/insights/1
+Authorization: {{token}}
+
+### ── Actuator ────────────────────────────────────────────────────────────
+
+### Liveness probe
+GET {{baseUrl}}/actuator/health/liveness
+
+### Readiness probe
+GET {{baseUrl}}/actuator/health/readiness
+
+### Full health (authenticated)
+GET {{baseUrl}}/actuator/health
+Authorization: {{token}}
+
+### Prometheus metrics
+GET {{baseUrl}}/actuator/prometheus
+Authorization: {{token}}
