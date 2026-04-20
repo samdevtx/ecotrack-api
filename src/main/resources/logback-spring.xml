@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+
+    <springProfile name="docker,staging,production">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+                <includeContext>false</includeContext>
+                <fieldNames>
+                    <timestamp>timestamp</timestamp>
+                    <level>level</level>
+                    <logger>logger</logger>
+                    <thread>thread</thread>
+                    <message>message</message>
+                    <stackTrace>stackTrace</stackTrace>
+                </fieldNames>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+        <logger name="org.springframework.security" level="WARN"/>
+        <logger name="org.springframework.web" level="WARN"/>
+        <logger name="org.hibernate.SQL" level="WARN"/>
+    </springProfile>
+
+    <springProfile name="!docker,!staging,!production">
+        <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+            <encoder>
+                <pattern>%d{HH:mm:ss.SSS} %-5level [%thread] %logger{36} - %msg%n</pattern>
+            </encoder>
+        </appender>
+        <root level="INFO">
+            <appender-ref ref="CONSOLE"/>
+        </root>
+        <logger name="org.springframework.security" level="WARN"/>
+        <logger name="org.springframework.web" level="WARN"/>
+    </springProfile>
+
+</configuration>
