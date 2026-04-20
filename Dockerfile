@@ -2,7 +2,7 @@
 FROM eclipse-temurin:17-jdk-alpine@sha256:0b31cde347425a20347179c41dc38fa2b958a6adbb6f967ecce25c841fbf474c AS builder
 
 # Metadata labels
-LABEL maintainer="EcoTrack Team"
+LABEL maintainer="samdevtx"
 LABEL description="EcoTrack - Mobilidade Sustentável Application"
 LABEL version="1.0.0"
 
@@ -32,7 +32,7 @@ RUN ./mvnw clean package -DskipTests -B -Dspring.profiles.active=docker && \
 FROM eclipse-temurin:17-jre-alpine@sha256:9c68a49228fd2684ab0e2d36b3405ab9c80974fa70bacac14fa24d883e76c0d7
 
 # Metadata labels
-LABEL maintainer="EcoTrack Team"
+LABEL maintainer="samdevtx"
 LABEL description="EcoTrack - Mobilidade Sustentável Runtime"
 LABEL version="1.0.0"
 
