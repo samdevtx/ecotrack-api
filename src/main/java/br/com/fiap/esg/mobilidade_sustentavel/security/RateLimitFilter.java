@@ -10,8 +10,8 @@ import org.springframework.http.MediaType;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-import com.bucket4j.Bandwidth;
-import com.bucket4j.Bucket;
+import io.github.bucket4j.Bandwidth;
+import io.github.bucket4j.Bucket;
 
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
