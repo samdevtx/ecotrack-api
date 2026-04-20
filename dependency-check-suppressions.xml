@@ -2,21 +2,21 @@
 <suppressions xmlns="https://jeremylong.github.io/DependencyCheck/dependency-suppression.1.3.xsd">
 
     <!--
-        Netty CVEs with no fix available in the 4.1.x line as of 2026-04.
-        Pinned to 4.1.132.Final (latest stable). Re-evaluate when a newer
-        Netty version is released that addresses these.
+        DOMPurify mXSS CVEs bundled inside swagger-ui (via springdoc-openapi).
+        Swagger UI is served at /swagger-ui.html — a developer-only endpoint, not
+        accessible to end users. The mXSS vector requires attacker-controlled HTML
+        to be re-inserted into a new parsing context via innerHTML with special wrappers
+        (script, xmp, iframe, etc.). This API does not perform that operation; the
+        Swagger UI only renders static OpenAPI spec content. Re-evaluate when a
+        springdoc-openapi release ships with DOMPurify >= 3.3.2.
     -->
     <suppress>
-        <notes>No patched Netty 4.1.x release available as of 2026-04. Pinned to 4.1.132.Final.</notes>
-        <cve>CVE-2026-33871</cve>
+        <notes>DOMPurify mXSS in swagger-ui only; Swagger UI is dev-only, not user-facing. Re-evaluate on springdoc upgrade.</notes>
+        <cve>CVE-2026-0540</cve>
     </suppress>
     <suppress>
-        <notes>No patched Netty 4.1.x release available as of 2026-04. Pinned to 4.1.132.Final.</notes>
-        <cve>CVE-2026-33870</cve>
-    </suppress>
-    <suppress>
-        <notes>No patched Netty 4.1.x release available as of 2026-04. Pinned to 4.1.132.Final.</notes>
-        <cve>CVE-2025-55163</cve>
+        <notes>DOMPurify mXSS in swagger-ui only; Swagger UI is dev-only, not user-facing. Re-evaluate on springdoc upgrade.</notes>
+        <cve>CVE-2025-15599</cve>
     </suppress>
 
 </suppressions>
