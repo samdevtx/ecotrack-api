@@ -12,7 +12,7 @@ env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
-  # Job 1: Build e Testes
+  # ── Job 1: Build & Test ─────────────────────────────────────────────────────
   test:
     runs-on: ubuntu-latest
     name: 🧪 Build & Test
@@ -76,18 +76,18 @@ jobs:
         name: surefire-reports
         path: target/surefire-reports/*.xml
 
-    - name: 📤 Upload build artifacts
+    - name: 📤 Upload build artifact
       uses: actions/upload-artifact@v4
       with:
         name: jar-artifact
         path: target/*.jar
 
-  # Job 2: Análise de Código e Segurança
+  # ── Job 2: Code Analysis ────────────────────────────────────────────────────
   code-analysis:
     runs-on: ubuntu-latest
     name: 🔍 Code Analysis
     needs: test
-    
+
     steps:
     - name: 📥 Checkout code
       uses: actions/checkout@v4
@@ -131,13 +131,13 @@ jobs:
         name: owasp-report
         path: target/dependency-check-report.html
 
-  # Job 3: Build e Push da Imagem Docker
+  # ── Job 3: Docker Build & Push (main only) ──────────────────────────────────
   build-and-push:
     runs-on: ubuntu-latest
     name: 🐳 Build & Push Docker Image
     needs: [test, code-analysis]
     if: github.event_name == 'push' && github.ref == 'refs/heads/main'
-    
+
     permissions:
       contents: read
       packages: write
@@ -163,9 +163,8 @@ jobs:
         images: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}
         tags: |
           type=ref,event=branch
-          type=ref,event=pr
-          type=sha,prefix={{branch}}-
-          type=raw,value=latest,enable={{is_default_branch}}
+          type=sha,prefix=main-
+          type=raw,value=latest,enable=true
 
     - name: 🏗️ Build and push Docker image
       uses: docker/build-push-action@v5
@@ -178,7 +177,7 @@ jobs:
         cache-from: type=gha
         cache-to: type=gha,mode=max
 
-  # Job 4: Trivy Image Scan
+  # ── Job 4: Trivy Image Scan (main only) ─────────────────────────────────────
   trivy-scan:
     runs-on: ubuntu-latest
     name: 🔒 Trivy Image Scan
@@ -212,90 +211,62 @@ jobs:
       with:
         sarif_file: trivy-results.sarif
 
-  # Job 5: Deploy para Staging
+  # ── Job 5: Deploy to Staging (develop only) ─────────────────────────────────
   deploy-staging:
     runs-on: ubuntu-latest
     name: 🚀 Deploy to Staging
-    needs: [build-and-push, trivy-scan]
+    needs: [test, code-analysis]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/develop'
     environment: staging
-    
+
     steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
-
-    - name: 🐳 Set up Docker Compose
+    - name: 🚀 Trigger Render staging deploy
       run: |
-        # Simular deploy em staging usando docker-compose
-        echo "🚀 Deploying to staging environment..."
-        
-        # Criar arquivo de ambiente para staging
-        cat > .env.staging << EOF
-        JWT_SECRET=${{ secrets.JWT_SECRET }}
-        JWT_EXPIRATION_MS=3600000
-        SPRING_SECRET_AI_KEY=${{ secrets.SPRING_SECRET_AI_KEY }}
-        ORACLE_PASSWORD=${{ secrets.ORACLE_PASSWORD }}
-        COMPOSE_PROJECT_NAME=ecotrack-staging
-        EOF
-        
-        # Simular deploy (em produção real, seria deploy para servidor)
-        echo "✅ Staging deployment completed"
-        echo "🌐 Staging URL: https://staging.ecotrack.com"
+        curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK_STAGING }}" \
+          -o /dev/null -w "HTTP %{http_code}\n"
 
-    - name: 🧪 Run staging tests
+    - name: ⏳ Wait for staging to be healthy
       run: |
-        echo "🧪 Running staging smoke tests..."
-        # Aqui executaríamos testes de integração no ambiente de staging
-        echo "✅ Staging tests passed"
+        echo "Polling ${{ secrets.STAGING_HEALTH_URL }} ..."
+        for i in $(seq 1 30); do
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.STAGING_HEALTH_URL }}" || echo "000")
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Staging healthy (attempt $i)"
+            exit 0
+          fi
+          echo "Attempt $i/30 — HTTP $STATUS — retrying in 20s"
+          sleep 20
+        done
+        echo "❌ Staging did not become healthy after 10 minutes"
+        exit 1
 
-  # Job 6: Deploy para Produção
+  # ── Job 6: Deploy to Production (main only) ──────────────────────────────────
   deploy-production:
     runs-on: ubuntu-latest
     name: 🌟 Deploy to Production
-    needs: deploy-staging
+    needs: [test, code-analysis, build-and-push, trivy-scan]
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     environment: production
-    if: github.ref == 'refs/heads/main'
-    
+
     steps:
-    - name: 📥 Checkout code
-      uses: actions/checkout@v4
-
-    - name: 🌟 Deploy to Production
+    - name: 🌟 Trigger Render production deploy
       run: |
-        echo "🌟 Deploying to production environment..."
-        
-        # Criar arquivo de ambiente para produção
-        cat > .env.production << EOF
-        JWT_SECRET=${{ secrets.JWT_SECRET }}
-        JWT_EXPIRATION_MS=3600000
-        SPRING_SECRET_AI_KEY=${{ secrets.SPRING_SECRET_AI_KEY }}
-        ORACLE_PASSWORD=${{ secrets.ORACLE_PASSWORD }}
-        COMPOSE_PROJECT_NAME=ecotrack-production
-        EOF
-        
-        # Simular deploy de produção
-        echo "✅ Production deployment completed"
-        echo "🌐 Production URL: https://ecotrack.com"
+        curl -s -X POST "${{ secrets.RENDER_DEPLOY_HOOK_PRODUCTION }}" \
+          -o /dev/null -w "HTTP %{http_code}\n"
 
-    - name: 📊 Post-deployment verification
+    - name: ⏳ Wait for production to be healthy
       run: |
-        echo "📊 Running production health checks..."
-        # Aqui executaríamos verificações de saúde da aplicação
-        echo "✅ Production health checks passed"
-
-  # Job 6: Notificações
-  notify:
-    runs-on: ubuntu-latest
-    name: 📢 Notifications
-    needs: [deploy-production]
-    if: always()
-    
-    steps:
-    - name: 📢 Notify deployment status
-      run: |
-        if [ "${{ needs.deploy-production.result }}" == "success" ]; then
-          echo "✅ Pipeline completed successfully!"
-          echo "🚀 Application deployed to production"
-        else
-          echo "❌ Pipeline failed"
-          echo "🔍 Check logs for details"
-        fi
+        echo "Polling ${{ secrets.PRODUCTION_HEALTH_URL }} ..."
+        for i in $(seq 1 30); do
+          STATUS=$(curl -s -o /dev/null -w "%{http_code}" \
+            "${{ secrets.PRODUCTION_HEALTH_URL }}" || echo "000")
+          if [ "$STATUS" = "200" ]; then
+            echo "✅ Production healthy (attempt $i)"
+            exit 0
+          fi
+          echo "Attempt $i/30 — HTTP $STATUS — retrying in 20s"
+          sleep 20
+        done
+        echo "❌ Production did not become healthy after 10 minutes"
+        exit 1
