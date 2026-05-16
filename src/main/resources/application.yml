@@ -32,6 +32,7 @@ app:
     expiration-ms: "${JWT_EXPIRATION_MS}" 
 
 server:
+  port: ${PORT:8080}
   shutdown: graceful
 
 app:
