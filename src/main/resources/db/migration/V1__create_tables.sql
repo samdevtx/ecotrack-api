@@ -8,7 +8,7 @@ CREATE TABLE USUARIOS (
     NOME                     VARCHAR(255)       NOT NULL,
     EMAIL                    VARCHAR(255)       NOT NULL UNIQUE,
     SENHA                    VARCHAR(255)       NOT NULL,
-    ENABLED                  SMALLINT           DEFAULT 1    NOT NULL,
+    ENABLED                  BOOLEAN            DEFAULT TRUE NOT NULL,
     FAILED_LOGIN_ATTEMPTS    SMALLINT           DEFAULT 0    NOT NULL,
     ACCOUNT_LOCKED_UNTIL     TIMESTAMP                       NULL,
     ACCOUNT_EXPIRATION_DATE  DATE                            NULL,
