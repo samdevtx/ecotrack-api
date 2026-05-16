@@ -3,13 +3,12 @@ spring:
     name: mobilidade-sustentavel
   main:
     lazy-initialization: true
-  jpa:
-    open-in-view: false
   datasource:
     url: jdbc:postgresql://postgres:5432/ecotrack
     username: ecotrack
     password: "${DB_PASSWORD}"
   jpa:
+    open-in-view: false
     hibernate:
       ddl-auto: none
   flyway:
