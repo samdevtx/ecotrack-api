@@ -4,7 +4,7 @@
 
 API REST em Spring Boot para rastreamento de viagens e cálculo de pegada de carbono. Usuários registram deslocamentos por modal de transporte, recebem cálculos automáticos de CO₂ e insights personalizados de sustentabilidade via Hugging Face.
 
-**Live:** `https://<URL-APÓS-DEPLOY>/swagger-ui.html`
+**Live:** [https://ecotrack-api.samdevtx.me/swagger-ui.html](https://ecotrack-api.samdevtx.me/swagger-ui.html)
 
 ---
 
@@ -23,9 +23,9 @@ API REST em Spring Boot para rastreamento de viagens e cálculo de pegada de car
 
 | Camada | Tecnologia |
 |---|---|
-| Framework | Spring Boot 3.3.1 + Java 17 |
+| Framework | Spring Boot 3.5.13 + Java 17 |
 | Segurança | Spring Security + JWT (JJWT) + BCrypt |
-| Persistência | PostgreSQL 16 + Spring Data JPA + Flyway + HikariCP |
+| Persistência | PostgreSQL 17 + Spring Data JPA + Flyway + HikariCP |
 | HTTP reativo | Spring WebFlux (WebClient) |
 | IA | Hugging Face API |
 | Monitoramento | Spring Actuator + Prometheus + Grafana + Micrometer |
@@ -117,8 +117,8 @@ Configurado em `.github/workflows/ci-cd.yml`:
 2. **Code Analysis** — SpotBugs (análise estática) + OWASP Dependency Check (CVEs)
 3. **Build & Push** — imagem Docker para GitHub Container Registry (`ghcr.io`) com SHA tag
 4. **Trivy Scan** — varredura de vulnerabilidades HIGH/CRITICAL na imagem publicada
-5. **Deploy Staging** — deploy automático ao merge em `main`
-6. **Deploy Production** — deploy com aprovação manual (GitHub environment)
+5. **Deploy Staging** — deploy automático ao push em `develop`
+6. **Deploy Production** — deploy automático ao push em `main` (com aprovação via GitHub environment)
 
 Trigger: push em `main`/`develop` e pull requests para `main`.
 
