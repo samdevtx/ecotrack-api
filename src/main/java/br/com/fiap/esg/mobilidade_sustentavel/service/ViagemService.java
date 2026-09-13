@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -63,6 +65,13 @@ public class ViagemService {
     }
 
     @Transactional(readOnly = true)
+    public List<ViagemResponseDto> listarViagensRecentesPorUsuario(Long usuarioId, int limite) {
+        PageRequest page = PageRequest.of(0, limite,
+            Sort.by(Sort.Direction.DESC, "dataHora", "id"));
+        return ViagemMapper.toResponseDtoList(viagemRepository.findByUsuarioId(usuarioId, page));
+    }
+
+    @Transactional(readOnly = true)
     public List<ViagemResponseDto> listarTodasViagens() {
         return ViagemMapper.toResponseDtoList(viagemRepository.findAll());
     }
@@ -105,4 +114,4 @@ public class ViagemService {
         BigDecimal factor = co2EmissionConfig.getFactorForTransport(transporte);
         return distanciaKm.multiply(factor).setScale(3, RoundingMode.HALF_UP);
     }
-} 
+}

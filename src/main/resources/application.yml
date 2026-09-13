@@ -7,6 +7,9 @@ spring:
     url: jdbc:postgresql://postgres:5432/ecotrack
     username: ecotrack
     password: "${DB_PASSWORD}"
+    hikari:
+      maximum-pool-size: 3
+      minimum-idle: 1
   jpa:
     open-in-view: false
     hibernate:
@@ -38,6 +41,10 @@ app:
 server:
   port: ${PORT:8080}
   shutdown: graceful
+  tomcat:
+    threads:
+      max: 32
+      min-spare: 2
 
 management:
   health:

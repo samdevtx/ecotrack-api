@@ -1,0 +1,379 @@
+<?xml version='1.0' encoding='utf-8'?>
+<BugCollection version="4.8.6">
+  <!--Existing findings from main 2050a3957799b33a97aa1355f3e56570f2009de4. Do not regenerate to accept new findings.-->
+  <BugInstance instanceOccurrenceNum="0" instanceHash="187fe7b8254083f1a98d69bf2a1e7ba5" cweid="374" rank="18" abbrev="EI" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig.getCo2EmissionFactors() may expose internal representation by returning Co2EmissionConfig.co2EmissionFactors</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" classAnnotationNames="org.springframework.stereotype.Component,org.springframework.boot.context.properties.ConfigurationProperties" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" start="12" end="38" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/Co2EmissionConfig.java" sourcefile="Co2EmissionConfig.java">
+        <Message>At Co2EmissionConfig.java:[lines 12-38]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" signature="()Ljava/util/Map;" name="getCo2EmissionFactors" classAnnotationNames="org.springframework.stereotype.Component,org.springframework.boot.context.properties.ConfigurationProperties" primary="true">
+      <SourceLine endBytecode="46" classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" start="18" end="18" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/Co2EmissionConfig.java" sourcefile="Co2EmissionConfig.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig.getCo2EmissionFactors()</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" signature="Ljava/util/Map;" name="co2EmissionFactors" classAnnotationNames="org.springframework.stereotype.Component,org.springframework.boot.context.properties.ConfigurationProperties" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/Co2EmissionConfig.java" sourcefile="Co2EmissionConfig.java">
+        <Message>In Co2EmissionConfig.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig.co2EmissionFactors</Message>
+    </Field>
+    <SourceLine endBytecode="4" classname="br.com.fiap.esg.mobilidade_sustentavel.config.Co2EmissionConfig" start="18" end="18" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/Co2EmissionConfig.java" sourcefile="Co2EmissionConfig.java" startBytecode="4" primary="true">
+      <Message>At Co2EmissionConfig.java:[line 18]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="e1541145e4c468574506dfda0514a8a2" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig(JwtAuthenticationFilter, UserDetailsServiceImpl) may expose internal representation by storing an externally mutable object into SecurityConfig.jwtAuthenticationFilter</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" classAnnotationNames="org.springframework.context.annotation.Configuration,org.springframework.security.config.annotation.web.configuration.EnableWebSecurity,org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" start="49" end="123" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/SecurityConfig.java" sourcefile="SecurityConfig.java">
+        <Message>At SecurityConfig.java:[lines 49-123]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" signature="(Lbr/com/fiap/esg/mobilidade_sustentavel/security/JwtAuthenticationFilter;Lbr/com/fiap/esg/mobilidade_sustentavel/security/UserDetailsServiceImpl;)V" name="&lt;init&gt;" classAnnotationNames="org.springframework.context.annotation.Configuration,org.springframework.security.config.annotation.web.configuration.EnableWebSecurity,org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity" primary="true">
+      <SourceLine endBytecode="88" classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" start="49" end="52" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/SecurityConfig.java" sourcefile="SecurityConfig.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig(JwtAuthenticationFilter, UserDetailsServiceImpl)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/security/JwtAuthenticationFilter;" name="jwtAuthenticationFilter" classAnnotationNames="org.springframework.context.annotation.Configuration,org.springframework.security.config.annotation.web.configuration.EnableWebSecurity,org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/SecurityConfig.java" sourcefile="SecurityConfig.java">
+        <Message>In SecurityConfig.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig.jwtAuthenticationFilter</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="6" name="jwtAuthenticationFilter" register="1">
+      <Message>Local variable named jwtAuthenticationFilter</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="6" classname="br.com.fiap.esg.mobilidade_sustentavel.config.SecurityConfig" start="50" end="50" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/config/SecurityConfig.java" sourcefile="SecurityConfig.java" startBytecode="6" primary="true">
+      <Message>At SecurityConfig.java:[line 50]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="ae764b8a1e52906feb5d1171ad0e4995" cweid="374" rank="18" abbrev="EI" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.getValidationErrors() may expose internal representation by returning ErrorResponseDto.validationErrors</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="16" end="77" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java">
+        <Message>At ErrorResponseDto.java:[lines 16-77]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" signature="()Ljava/util/Map;" name="getValidationErrors" primary="true">
+      <SourceLine endBytecode="46" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="72" end="72" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.getValidationErrors()</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" signature="Ljava/util/Map;" name="validationErrors" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java">
+        <Message>In ErrorResponseDto.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.validationErrors</Message>
+    </Field>
+    <SourceLine endBytecode="4" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="72" end="72" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java" startBytecode="4" primary="true">
+      <Message>At ErrorResponseDto.java:[line 72]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="b53b1eec450f3cc12f81d2999664b495" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto(int, String, String, String, Map) may expose internal representation by storing an externally mutable object into ErrorResponseDto.validationErrors</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="16" end="77" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java">
+        <Message>At ErrorResponseDto.java:[lines 16-77]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" signature="(ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V" name="&lt;init&gt;" primary="true">
+      <SourceLine endBytecode="133" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="26" end="28" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto(int, String, String, String, Map)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" signature="Ljava/util/Map;" name="validationErrors" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java">
+        <Message>In ErrorResponseDto.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.validationErrors</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="12" name="validationErrors" register="5">
+      <Message>Local variable named validationErrors</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="12" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="27" end="27" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java" startBytecode="12" primary="true">
+      <Message>At ErrorResponseDto.java:[line 27]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="2d00fba12194b59a08b798179e625c44" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.setValidationErrors(Map) may expose internal representation by storing an externally mutable object into ErrorResponseDto.validationErrors</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="16" end="77" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java">
+        <Message>At ErrorResponseDto.java:[lines 16-77]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" signature="(Ljava/util/Map;)V" name="setValidationErrors" primary="true">
+      <SourceLine endBytecode="79" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="76" end="77" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.setValidationErrors(Map)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" signature="Ljava/util/Map;" name="validationErrors" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java">
+        <Message>In ErrorResponseDto.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto.validationErrors</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="2" name="validationErrors" register="1">
+      <Message>Local variable named validationErrors</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="2" classname="br.com.fiap.esg.mobilidade_sustentavel.dto.ErrorResponseDto" start="76" end="76" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/dto/ErrorResponseDto.java" sourcefile="ErrorResponseDto.java" startBytecode="2" primary="true">
+      <Message>At ErrorResponseDto.java:[line 76]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="2b7ac868ef3a30695794e07424d8fe43" cweid="374" rank="18" abbrev="EI" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse.validationErrors() may expose internal representation by returning ErrorResponse.validationErrors</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" classAnnotationNames="com.fasterxml.jackson.annotation.JsonInclude" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" start="11" end="25" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java">
+        <Message>At ErrorResponse.java:[lines 11-25]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" signature="()Ljava/util/Map;" name="validationErrors" classAnnotationNames="com.fasterxml.jackson.annotation.JsonInclude" primary="true">
+      <SourceLine endBytecode="46" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" start="11" end="11" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse.validationErrors()</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" signature="Ljava/util/Map;" name="validationErrors" classAnnotationNames="com.fasterxml.jackson.annotation.JsonInclude" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java">
+        <Message>In ErrorResponse.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse.validationErrors</Message>
+    </Field>
+    <SourceLine endBytecode="4" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" start="11" end="11" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java" startBytecode="4" primary="true">
+      <Message>At ErrorResponse.java:[line 11]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="cd733f598b93da31ae3ad8d6b747ed95" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse(LocalDateTime, int, String, String, String, Map) may expose internal representation by storing an externally mutable object into ErrorResponse.validationErrors</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" classAnnotationNames="com.fasterxml.jackson.annotation.JsonInclude" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" start="11" end="25" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java">
+        <Message>At ErrorResponse.java:[lines 11-25]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" signature="(Ljava/time/LocalDateTime;ILjava/lang/String;Ljava/lang/String;Ljava/lang/String;Ljava/util/Map;)V" name="&lt;init&gt;" classAnnotationNames="com.fasterxml.jackson.annotation.JsonInclude" primary="true">
+      <SourceLine endBytecode="157" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" start="12" end="12" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse(LocalDateTime, int, String, String, String, Map)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" signature="Ljava/util/Map;" name="validationErrors" classAnnotationNames="com.fasterxml.jackson.annotation.JsonInclude" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java">
+        <Message>In ErrorResponse.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse.validationErrors</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="34" name="validationErrors" register="6">
+      <Message>Local variable named validationErrors</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="34" classname="br.com.fiap.esg.mobilidade_sustentavel.exception.dto.ErrorResponse" start="12" end="12" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/exception/dto/ErrorResponse.java" sourcefile="ErrorResponse.java" startBytecode="34" primary="true">
+      <Message>At ErrorResponse.java:[line 12]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="81e0aab714476df4599112fa34269b6a" cweid="374" rank="18" abbrev="EI" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.getUsuario() may expose internal representation by returning Compensacao.usuario</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="50" end="119" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java">
+        <Message>At Compensacao.java:[lines 50-119]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" signature="()Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="getUsuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine endBytecode="46" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="70" end="70" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.getUsuario()</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="usuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java">
+        <Message>In Compensacao.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.usuario</Message>
+    </Field>
+    <SourceLine endBytecode="4" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="70" end="70" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java" startBytecode="4" primary="true">
+      <Message>At Compensacao.java:[line 70]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="2f817f208e1892bd24a1c1a4c3a29ebf" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao(Usuario, String, BigDecimal, LocalDateTime) may expose internal representation by storing an externally mutable object into Compensacao.usuario</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="50" end="119" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java">
+        <Message>At Compensacao.java:[lines 50-119]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" signature="(Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;Ljava/lang/String;Ljava/math/BigDecimal;Ljava/time/LocalDateTime;)V" name="&lt;init&gt;" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine endBytecode="127" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="53" end="58" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao(Usuario, String, BigDecimal, LocalDateTime)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="usuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java">
+        <Message>In Compensacao.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.usuario</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="6" name="usuario" register="1">
+      <Message>Local variable named usuario</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="6" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="54" end="54" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java" startBytecode="6" primary="true">
+      <Message>At Compensacao.java:[line 54]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="7d84b786000f814689c54acda8b8234f" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.setUsuario(Usuario) may expose internal representation by storing an externally mutable object into Compensacao.usuario</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="50" end="119" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java">
+        <Message>At Compensacao.java:[lines 50-119]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" signature="(Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;)V" name="setUsuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine endBytecode="61" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="74" end="75" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.setUsuario(Usuario)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="usuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java">
+        <Message>In Compensacao.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao.usuario</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="2" name="usuario" register="1">
+      <Message>Local variable named usuario</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="2" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Compensacao" start="74" end="74" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Compensacao.java" sourcefile="Compensacao.java" startBytecode="2" primary="true">
+      <Message>At Compensacao.java:[line 74]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="ec9eb2e0f2f74173fa48291a805c4fd" cweid="374" rank="18" abbrev="EI" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by returning reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.getUsuario() may expose internal representation by returning Viagem.usuario</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="50" end="128" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java">
+        <Message>At Viagem.java:[lines 50-128]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.model.Viagem</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" signature="()Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="getUsuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine endBytecode="46" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="71" end="71" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.getUsuario()</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="usuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java">
+        <Message>In Viagem.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.usuario</Message>
+    </Field>
+    <SourceLine endBytecode="4" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="71" end="71" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java" startBytecode="4" primary="true">
+      <Message>At Viagem.java:[line 71]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="dbcc4b969f95075ed01c48c9711229eb" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.model.Viagem(Usuario, String, BigDecimal, BigDecimal, LocalDateTime) may expose internal representation by storing an externally mutable object into Viagem.usuario</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="50" end="128" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java">
+        <Message>At Viagem.java:[lines 50-128]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.model.Viagem</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" signature="(Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;Ljava/lang/String;Ljava/math/BigDecimal;Ljava/math/BigDecimal;Ljava/time/LocalDateTime;)V" name="&lt;init&gt;" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine endBytecode="147" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="53" end="59" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.model.Viagem(Usuario, String, BigDecimal, BigDecimal, LocalDateTime)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="usuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java">
+        <Message>In Viagem.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.usuario</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="6" name="usuario" register="1">
+      <Message>Local variable named usuario</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="6" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="54" end="54" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java" startBytecode="6" primary="true">
+      <Message>At Viagem.java:[line 54]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="9a8754b1e2e8c0472e77cb3cd06d3656" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.setUsuario(Usuario) may expose internal representation by storing an externally mutable object into Viagem.usuario</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="50" end="128" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java">
+        <Message>At Viagem.java:[lines 50-128]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.model.Viagem</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" signature="(Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;)V" name="setUsuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine endBytecode="61" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="75" end="76" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java" startBytecode="0" />
+      <Message>In method br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.setUsuario(Usuario)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/model/Usuario;" name="usuario" classAnnotationNames="jakarta.persistence.Entity,jakarta.persistence.Table" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java">
+        <Message>In Viagem.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.model.Viagem.usuario</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="2" name="usuario" register="1">
+      <Message>Local variable named usuario</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="2" classname="br.com.fiap.esg.mobilidade_sustentavel.model.Viagem" start="75" end="75" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/model/Viagem.java" sourcefile="Viagem.java" startBytecode="2" primary="true">
+      <Message>At Viagem.java:[line 75]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="6feb4e3f92e9d95cd57a283c9b8b9df5" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.service.InsightService(WebClient, ViagemService) may expose internal representation by storing an externally mutable object into InsightService.aiWebClient</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" classAnnotationNames="org.springframework.stereotype.Service" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" start="27" end="131" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/InsightService.java" sourcefile="InsightService.java">
+        <Message>At InsightService.java:[lines 27-131]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.service.InsightService</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" signature="(Lorg/springframework/web/reactive/function/client/WebClient;Lbr/com/fiap/esg/mobilidade_sustentavel/service/ViagemService;)V" name="&lt;init&gt;" classAnnotationNames="org.springframework.stereotype.Service" primary="true">
+      <SourceLine endBytecode="88" classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" start="55" end="58" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/InsightService.java" sourcefile="InsightService.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.service.InsightService(WebClient, ViagemService)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" signature="Lorg/springframework/web/reactive/function/client/WebClient;" name="aiWebClient" classAnnotationNames="org.springframework.stereotype.Service" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/InsightService.java" sourcefile="InsightService.java">
+        <Message>In InsightService.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.service.InsightService.aiWebClient</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="6" name="aiWebClient" register="1">
+      <Message>Local variable named aiWebClient</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="6" classname="br.com.fiap.esg.mobilidade_sustentavel.service.InsightService" start="56" end="56" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/InsightService.java" sourcefile="InsightService.java" startBytecode="6" primary="true">
+      <Message>At InsightService.java:[line 56]</Message>
+    </SourceLine>
+  </BugInstance>
+  <BugInstance instanceOccurrenceNum="0" instanceHash="9166439cf676bf09cdf403ace2af7fc0" cweid="374" rank="18" abbrev="EI2" category="MALICIOUS_CODE" priority="2" type="EI_EXPOSE_REP2" instanceOccurrenceMax="0">
+    <ShortMessage>May expose internal representation by incorporating reference to mutable object</ShortMessage>
+    <LongMessage>new br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService(ViagemRepository, Co2EmissionConfig) may expose internal representation by storing an externally mutable object into ViagemService.co2EmissionConfig</LongMessage>
+    <Class classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" classAnnotationNames="org.springframework.stereotype.Service" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" start="28" end="106" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/ViagemService.java" sourcefile="ViagemService.java">
+        <Message>At ViagemService.java:[lines 28-106]</Message>
+      </SourceLine>
+      <Message>In class br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService</Message>
+    </Class>
+    <Method isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" signature="(Lbr/com/fiap/esg/mobilidade_sustentavel/repository/ViagemRepository;Lbr/com/fiap/esg/mobilidade_sustentavel/config/Co2EmissionConfig;)V" name="&lt;init&gt;" classAnnotationNames="org.springframework.stereotype.Service" primary="true">
+      <SourceLine endBytecode="88" classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" start="28" end="31" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/ViagemService.java" sourcefile="ViagemService.java" startBytecode="0" />
+      <Message>In method new br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService(ViagemRepository, Co2EmissionConfig)</Message>
+    </Method>
+    <Field isStatic="false" classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" signature="Lbr/com/fiap/esg/mobilidade_sustentavel/config/Co2EmissionConfig;" name="co2EmissionConfig" classAnnotationNames="org.springframework.stereotype.Service" primary="true">
+      <SourceLine classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/ViagemService.java" sourcefile="ViagemService.java">
+        <Message>In ViagemService.java</Message>
+      </SourceLine>
+      <Message>Field br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService.co2EmissionConfig</Message>
+    </Field>
+    <LocalVariable role="LOCAL_VARIABLE_NAMED" pc="11" name="co2EmissionConfig" register="2">
+      <Message>Local variable named co2EmissionConfig</Message>
+    </LocalVariable>
+    <SourceLine endBytecode="11" classname="br.com.fiap.esg.mobilidade_sustentavel.service.ViagemService" start="30" end="30" sourcepath="br/com/fiap/esg/mobilidade_sustentavel/service/ViagemService.java" sourcefile="ViagemService.java" startBytecode="11" primary="true">
+      <Message>At ViagemService.java:[line 30]</Message>
+    </SourceLine>
+  </BugInstance>
+</BugCollection>

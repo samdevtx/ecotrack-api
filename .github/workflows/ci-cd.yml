@@ -108,7 +108,15 @@ jobs:
         restore-keys: nvd-
 
     - name: 🔍 Run SpotBugs
-      run: ./mvnw spotbugs:check -B
+      # Analyze compiled classes and reject findings absent from the fixed main baseline.
+      run: ./mvnw compile spotbugs:check -B -Dspotbugs.excludeBugsFile=.github/spotbugs-baseline.xml
+
+    - name: Upload SpotBugs report
+      if: always()
+      uses: actions/upload-artifact@v4
+      with:
+        name: spotbugs-report
+        path: target/spotbugsXml.xml
 
     - name: 🛡️ Run OWASP Dependency Check
       # continue-on-error: NVD API started returning nanosecond timestamps that
