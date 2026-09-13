@@ -16,6 +16,9 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.ArgumentCaptor;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
@@ -63,6 +66,23 @@ class ViagemServiceTest {
         viagemSalva.setDistanciaKm(viagemRequestDto.distanciaKm());
         viagemSalva.setDataHora(viagemRequestDto.dataHora());
         // CO2 será calculado e setado nos testes
+    }
+
+    @Test
+    void listarViagensRecentesPorUsuario_limitsDatabaseQueryAndOrdersNewestFirst() {
+        when(viagemRepository.findByUsuarioId(eq(1L), any(Pageable.class)))
+            .thenReturn(List.of(viagemSalva));
+
+        List<ViagemResponseDto> result = viagemService.listarViagensRecentesPorUsuario(1L, 50);
+
+        ArgumentCaptor<Pageable> page = ArgumentCaptor.forClass(Pageable.class);
+        verify(viagemRepository).findByUsuarioId(eq(1L), page.capture());
+        assertEquals(0, page.getValue().getPageNumber());
+        assertEquals(50, page.getValue().getPageSize());
+        assertEquals(Sort.by(Sort.Direction.DESC, "dataHora", "id"), page.getValue().getSort());
+        assertEquals(1, result.size());
+        assertEquals(viagemSalva.getId(), result.get(0).getId());
+        verify(viagemRepository, never()).findByUsuarioId(anyLong());
     }
 
     // Testes para o método privado calcularCO2, acessado através de criarViagem ou atualizarViagem
@@ -550,4 +570,4 @@ class ViagemServiceTest {
         verify(viagemRepository, times(1)).findById(viagemId);
         verify(viagemRepository, never()).deleteById(anyLong());
     }
-} 
+}

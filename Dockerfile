@@ -38,14 +38,16 @@ RUN mkdir -p /app/logs && chown -R appuser:appgroup /app/logs
 
 USER appuser
 
-HEALTHCHECK --interval=30s --timeout=10s --start-period=90s --retries=3 \
+HEALTHCHECK --interval=30s --timeout=10s --start-period=300s --retries=3 \
     CMD curl -f http://localhost:${PORT:-8080}/actuator/health || exit 1
 
 EXPOSE 8080
 
+# Reserve memory for metaspace, thread stacks and native buffers on 512 MB instances.
 ENV JAVA_OPTS="-XX:+UseContainerSupport \
-               -XX:MaxRAMPercentage=75.0 \
+               -Xms64m -Xmx256m \
                -XX:+UseG1GC \
+               -XX:+ExitOnOutOfMemoryError \
                -Djava.security.egd=file:/dev/./urandom"
 
 ENTRYPOINT ["dumb-init", "--"]
