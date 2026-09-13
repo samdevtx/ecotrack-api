@@ -25,6 +25,7 @@ import org.slf4j.LoggerFactory;
 public class InsightService {
 
     private static final Logger log = LoggerFactory.getLogger(InsightService.class);
+    private static final int MAX_INSIGHT_TRIPS = 50;
 
     private final WebClient aiWebClient;
     private final ViagemService viagemService;
@@ -59,7 +60,7 @@ public class InsightService {
 
     @CircuitBreaker(name = "aiInsightService", fallbackMethod = "gerarInsightsFallback")
     public Mono<String> gerarInsightsSustentabilidade(Long usuarioId) {
-        List<ViagemResponseDto> viagens = viagemService.listarViagensPorUsuario(usuarioId);
+        List<ViagemResponseDto> viagens = viagemService.listarViagensRecentesPorUsuario(usuarioId, MAX_INSIGHT_TRIPS);
         return gerarSugestaoComBaseNasViagens(viagens);
     }
 
@@ -88,8 +89,8 @@ public class InsightService {
         double totalCo2Grams = totalCo2Kg * 1000;
 
         String inputText = String.format(Locale.US,
-            "Relatório de mobilidade:\\n%s\\nTotal de emissões: %.1f g CO2.",
-            travelSummary, totalCo2Grams
+            "Relatório de mobilidade (até %d viagens mais recentes):\\n%s\\nTotal de emissões das viagens analisadas: %.1f g CO2.",
+            MAX_INSIGHT_TRIPS, travelSummary, totalCo2Grams
         );
 
         Map<String, Object> parameters = Map.of("candidate_labels", CANDIDATE_LABELS);
@@ -131,4 +132,4 @@ public class InsightService {
                 return Mono.just("Desculpe, ocorreu um erro ao tentar gerar sua sugestão personalizada via IA.");
             });
     }
-} 
+}

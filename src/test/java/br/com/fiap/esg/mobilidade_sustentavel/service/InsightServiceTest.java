@@ -82,7 +82,7 @@ class InsightServiceTest {
     @DisplayName("Deve retornar mensagem padrão quando usuário não tem viagens")
     void gerarInsightsSustentabilidade_usuarioSemViagens_retornaMensagemPadrao() {
         // Arrange
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(Collections.emptyList());
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(Collections.emptyList());
 
         // Act
         Mono<String> resultMono = insightService.gerarInsightsSustentabilidade(usuarioId);
@@ -90,7 +90,7 @@ class InsightServiceTest {
         // Assert
         String result = resultMono.block();
         assertEquals("Nenhuma viagem registrada para gerar sugestões.", result);
-        verify(viagemService).listarViagensPorUsuario(usuarioId);
+        verify(viagemService).listarViagensRecentesPorUsuario(usuarioId, 50);
         verify(aiWebClient, never()).post();
     }
 
@@ -102,7 +102,7 @@ class InsightServiceTest {
         ViagemResponseDto viagem1 = new ViagemResponseDto(1L, usuarioId, "Test User", "CARRO", BigDecimal.valueOf(10.5), BigDecimal.valueOf(1.26), LocalDateTime.now());
         ViagemResponseDto viagem2 = new ViagemResponseDto(2L, usuarioId, "Test User", "ONIBUS", BigDecimal.valueOf(20.0), BigDecimal.valueOf(1.00), LocalDateTime.now().minusDays(1));
         List<ViagemResponseDto> viagens = List.of(viagem1, viagem2);
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(viagens);
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(viagens);
 
         List<String> candidateLabels = List.of(
             "Ótimo uso de transporte de baixa emissão!",
@@ -130,7 +130,7 @@ class InsightServiceTest {
 
         // Assert
         assertEquals(expectedInsight, result);
-        verify(viagemService).listarViagensPorUsuario(usuarioId);
+        verify(viagemService).listarViagensRecentesPorUsuario(usuarioId, 50);
         verify(aiWebClient).post(); 
         org.mockito.ArgumentCaptor<Map<String, Object>> payloadCaptor = org.mockito.ArgumentCaptor.forClass(Map.class);
         verify(requestBodySpec).bodyValue(payloadCaptor.capture()); // verify on requestBodySpec now
@@ -150,9 +150,9 @@ class InsightServiceTest {
         // Construct the expected parts of the input text using Locale.US for numbers
         String expectedInputTextBreakdownPart1 = String.format(Locale.US, "Viagem 1: CARRO, %.2f km, %.3f kg CO2", 10.5, 1.260);
         String expectedInputTextBreakdownPart2 = String.format(Locale.US, "Viagem 2: ONIBUS, %.2f km, %.3f kg CO2", 20.0, 1.000);
-        String expectedTotalEmissions = String.format(Locale.US, "Total de emissões: %.1f g CO2.", 2260.0);
+        String expectedTotalEmissions = String.format(Locale.US, "Total de emissões das viagens analisadas: %.1f g CO2.", 2260.0);
 
-        assertTrue(capturedInputString.contains("Relatório de mobilidade:"), "Input text should contain 'Relatório de mobilidade:'.");
+        assertTrue(capturedInputString.contains("Relatório de mobilidade (até 50 viagens mais recentes):"), "Input text should contain 'Relatório de mobilidade:'.");
         assertTrue(capturedInputString.contains(expectedInputTextBreakdownPart1), "Input text should contain correct details for viagem 1 with US locale.");
         assertTrue(capturedInputString.contains(expectedInputTextBreakdownPart2), "Input text should contain correct details for viagem 2 with US locale.");
         assertTrue(capturedInputString.contains(expectedTotalEmissions), "Input text should contain correct total CO2 emissions with US locale formatting.");
@@ -164,7 +164,7 @@ class InsightServiceTest {
         // Arrange
         mockWebClientChain(); 
         ViagemResponseDto viagem1 = new ViagemResponseDto(1L, usuarioId, "Test User", "CARRO", BigDecimal.valueOf(10.0), BigDecimal.valueOf(1.0), LocalDateTime.now());
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(List.of(viagem1));
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(List.of(viagem1));
         
         when(responseSpec.bodyToMono(InsightService.ZeroShotClassificationResponse.class))
             .thenReturn(Mono.empty()); // Simulate bodyToMono returning empty (e.g. due to 404 or non-parsable)
@@ -184,7 +184,7 @@ class InsightServiceTest {
         // Arrange
         mockWebClientChain(); 
         ViagemResponseDto viagem1 = new ViagemResponseDto(1L, usuarioId, "Test User", "CARRO", BigDecimal.valueOf(10.0), BigDecimal.valueOf(1.0), LocalDateTime.now());
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(List.of(viagem1));
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(List.of(viagem1));
         
         InsightService.ZeroShotClassificationResponse responseWithEmptyLabels =
             new InsightService.ZeroShotClassificationResponse("seq", Collections.emptyList(), Collections.emptyList());
@@ -206,7 +206,7 @@ class InsightServiceTest {
         // Arrange
         mockWebClientChain(); 
         ViagemResponseDto viagem1 = new ViagemResponseDto(1L, usuarioId, "Test User", "CARRO", BigDecimal.valueOf(10.0), BigDecimal.valueOf(1.0), LocalDateTime.now());
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(List.of(viagem1));
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(List.of(viagem1));
         
         InsightService.ZeroShotClassificationResponse malformedResponse = 
             new InsightService.ZeroShotClassificationResponse("seq", null, List.of(0.1));
@@ -228,7 +228,7 @@ class InsightServiceTest {
         // Arrange
         mockWebClientChain(); 
         ViagemResponseDto viagem1 = new ViagemResponseDto(1L, usuarioId, "Test User", "BICICLETA", BigDecimal.valueOf(5.0), BigDecimal.valueOf(0.0), LocalDateTime.now());
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(List.of(viagem1));
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(List.of(viagem1));
         when(responseSpec.bodyToMono(InsightService.ZeroShotClassificationResponse.class)) // Changed to class
             .thenReturn(Mono.error(new WebClientResponseException("API Error", HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", null, null, null)));
 
@@ -246,7 +246,7 @@ class InsightServiceTest {
         // Arrange
         mockWebClientChain(); 
         ViagemResponseDto viagem1 = new ViagemResponseDto(1L, usuarioId, "Test User", "PATINETE", BigDecimal.valueOf(2.0), BigDecimal.valueOf(0.01), LocalDateTime.now());
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenReturn(List.of(viagem1));
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenReturn(List.of(viagem1));
         when(responseSpec.bodyToMono(InsightService.ZeroShotClassificationResponse.class)) // Changed to class
             .thenReturn(Mono.error(new RuntimeException("Erro inesperado na API")));
         
@@ -263,7 +263,7 @@ class InsightServiceTest {
     void gerarInsightsSustentabilidade_viagemServiceFalha_propagaExcecao() {
         // Arrange
         ResourceNotFoundException RNFException = new ResourceNotFoundException("Usuario", "id", usuarioId);
-        when(viagemService.listarViagensPorUsuario(usuarioId)).thenThrow(RNFException);
+        when(viagemService.listarViagensRecentesPorUsuario(usuarioId, 50)).thenThrow(RNFException);
 
         // Act & Assert
         ResourceNotFoundException thrown = assertThrows(ResourceNotFoundException.class, () -> {
@@ -271,7 +271,7 @@ class InsightServiceTest {
         });
 
         assertEquals(RNFException.getMessage(), thrown.getMessage());
-        verify(viagemService).listarViagensPorUsuario(usuarioId);
+        verify(viagemService).listarViagensRecentesPorUsuario(usuarioId, 50);
         verify(aiWebClient, never()).post();
     }
 } 

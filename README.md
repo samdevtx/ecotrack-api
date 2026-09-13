@@ -4,7 +4,7 @@
 
 API REST em Spring Boot para rastreamento de viagens e cálculo de pegada de carbono. Usuários registram deslocamentos por modal de transporte, recebem cálculos automáticos de CO₂ e insights personalizados de sustentabilidade via Hugging Face.
 
-**Live:** `https://<URL-APÓS-DEPLOY>/swagger-ui.html`
+**Live:** [https://ecotrack-api.samdevtx.me/swagger-ui.html](https://ecotrack-api.samdevtx.me/swagger-ui.html)
 
 ---
 
@@ -14,7 +14,7 @@ API REST em Spring Boot para rastreamento de viagens e cálculo de pegada de car
 - **Rastreamento de Viagens** — registro por modal (carro, moto, ônibus, metrô, bicicleta, etc.)
 - **Cálculo de Pegada de Carbono** — fatores de emissão por km configuráveis por tipo de transporte
 - **Compensação de Carbono** — associação de viagens a projetos ambientais
-- **Insights com IA** — análise e sugestões personalizadas via Hugging Face API
+- **Insights com IA** — análise das 50 viagens mais recentes e sugestões personalizadas via Hugging Face API
 - **API RESTful** — endpoints documentados com Swagger/OpenAPI
 
 ---
@@ -23,9 +23,9 @@ API REST em Spring Boot para rastreamento de viagens e cálculo de pegada de car
 
 | Camada | Tecnologia |
 |---|---|
-| Framework | Spring Boot 3.3.1 + Java 17 |
+| Framework | Spring Boot 3.5.13 + Java 17 |
 | Segurança | Spring Security + JWT (JJWT) + BCrypt |
-| Persistência | PostgreSQL 16 + Spring Data JPA + Flyway + HikariCP |
+| Persistência | PostgreSQL 17 + Spring Data JPA + Flyway + HikariCP |
 | HTTP reativo | Spring WebFlux (WebClient) |
 | IA | Hugging Face API |
 | Monitoramento | Spring Actuator + Prometheus + Grafana + Micrometer |
@@ -82,6 +82,22 @@ Senhas definidas via variável de ambiente — veja `.env.example`.
 
 ---
 
+## Memória no Render
+
+O Dockerfile usa heap inicial de 64 MB e máximo de 256 MB para reservar memória para metaspace, pilhas de threads e buffers nativos em instâncias de 512 MB. O processo encerra em caso de falta de memória na JVM para permitir sua reinicialização. Esses limites podem ser ajustados com `JAVA_OPTS` conforme o tamanho da instância.
+
+O pool JDBC usa no máximo 3 conexões (mínimo ocioso de 1), e o Tomcat usa no máximo 32 threads (mínimo de 2). É possível ajustar esses valores pelas variáveis `SPRING_DATASOURCE_HIKARI_MAXIMUM_POOL_SIZE`, `SPRING_DATASOURCE_HIKARI_MINIMUM_IDLE`, `SERVER_TOMCAT_THREADS_MAX` e `SERVER_TOMCAT_THREADS_MIN_SPARE`.
+
+O rate limiter mantém até 10.000 clientes e remove entradas após 10 minutos sem uso. Quando esse limite está ocupado, novos clientes recebem HTTP 429 até haver espaço; as cotas dos clientes ativos são preservadas. Os insights carregam no banco apenas as 50 viagens mais recentes, e o total de emissões enviado ao modelo corresponde às viagens analisadas.
+
+No CI, o SpotBugs analisa as classes compiladas e falha se encontrar problemas fora do baseline fixo de 15 achados existentes no commit `2050a39` (`.github/spotbugs-baseline.xml`). Esse baseline não deve ser regenerado para aceitar novos problemas. O relatório da análise é publicado como artefato do workflow. Para revisar todos os achados sem o baseline, execute `./mvnw compile spotbugs:check -B`.
+
+Os probes do CI usam `https://ecotrack-api.samdevtx.me/actuator/health` em produção e `https://ecotrack-api-staging.samdevtx.me/actuator/health` em staging, definidos no bloco `env` do workflow. Essas URLs públicas substituem os antigos secrets `PRODUCTION_HEALTH_URL` e `STAGING_HEALTH_URL`, que deixam de ser usados. O probe exige HTTP 200 e JSON com `status: UP`, limita o tamanho da resposta, aplica timeout de rede de 10 segundos e tenta até 30 vezes com intervalo de 20 segundos. Erros de conexão aparecem nos logs. Os deploy hooks continuam nos secrets e respostas HTTP de erro interrompem o job.
+
+PRs para `main` e `develop` executam os checks. Após merge, pushes para `main` disparam o deploy de produção e pushes para `develop` disparam o deploy de staging.
+
+---
+
 ## Makefile
 
 ```bash
@@ -117,8 +133,8 @@ Configurado em `.github/workflows/ci-cd.yml`:
 2. **Code Analysis** — SpotBugs (análise estática) + OWASP Dependency Check (CVEs)
 3. **Build & Push** — imagem Docker para GitHub Container Registry (`ghcr.io`) com SHA tag
 4. **Trivy Scan** — varredura de vulnerabilidades HIGH/CRITICAL na imagem publicada
-5. **Deploy Staging** — deploy automático ao merge em `main`
-6. **Deploy Production** — deploy com aprovação manual (GitHub environment)
+5. **Deploy Staging** — deploy automático ao push em `develop`
+6. **Deploy Production** — deploy automático ao push em `main` (com aprovação via GitHub environment)
 
 Trigger: push em `main`/`develop` e pull requests para `main`.
 
