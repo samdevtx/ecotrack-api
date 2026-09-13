@@ -92,6 +92,10 @@ O rate limiter mantém até 10.000 clientes e remove entradas após 10 minutos s
 
 No CI, o SpotBugs analisa as classes compiladas e falha se encontrar problemas fora do baseline fixo de 15 achados existentes no commit `2050a39` (`.github/spotbugs-baseline.xml`). Esse baseline não deve ser regenerado para aceitar novos problemas. O relatório da análise é publicado como artefato do workflow. Para revisar todos os achados sem o baseline, execute `./mvnw compile spotbugs:check -B`.
 
+Os probes do CI usam `https://ecotrack-api.samdevtx.me/actuator/health` em produção e `https://ecotrack-api-staging.samdevtx.me/actuator/health` em staging, definidos no bloco `env` do workflow. Essas URLs públicas substituem os antigos secrets `PRODUCTION_HEALTH_URL` e `STAGING_HEALTH_URL`, que deixam de ser usados. O probe exige HTTP 200 e JSON com `status: UP`, limita o tamanho da resposta, aplica timeout de rede de 10 segundos e tenta até 30 vezes com intervalo de 20 segundos. Erros de conexão aparecem nos logs. Os deploy hooks continuam nos secrets e respostas HTTP de erro interrompem o job.
+
+PRs para `main` e `develop` executam os checks. Após merge, pushes para `main` disparam o deploy de produção e pushes para `develop` disparam o deploy de staging.
+
 ---
 
 ## Makefile

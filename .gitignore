@@ -29,3 +29,6 @@ logs/
 
 # Spring Boot
 spring-shell.log
+
+# Python health-probe bytecode
+__pycache__/
