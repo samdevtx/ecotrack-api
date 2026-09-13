@@ -233,6 +233,9 @@ jobs:
     environment: staging
 
     steps:
+    - name: Checkout deployment scripts
+      uses: actions/checkout@v4
+
     - name: 🚀 Trigger Render staging deploy
       run: |
         curl --fail --silent --show-error --connect-timeout 5 --max-time 30 -X POST "${{ secrets.RENDER_DEPLOY_HOOK_STAGING }}" \
@@ -252,6 +255,9 @@ jobs:
     environment: production
 
     steps:
+    - name: Checkout deployment scripts
+      uses: actions/checkout@v4
+
     - name: 🌟 Trigger Render production deploy
       run: |
         curl --fail --silent --show-error --connect-timeout 5 --max-time 30 -X POST "${{ secrets.RENDER_DEPLOY_HOOK_PRODUCTION }}" \
